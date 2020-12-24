@@ -4,9 +4,10 @@ import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import styles from './styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-
+import auth from '@react-native-firebase/auth';
 import * as fontSize from './styles/fontSize';
 import iconLogo from '../assets/icons/bigcoin.jpg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const userIcon = (
   <Icon name="person-outline" size={fontSize.bigger} color="#babcbd" />
 );
@@ -15,13 +16,19 @@ const lockIcon = (
 );
 export default class Login extends Component {
   state = {email: '', password: '', errorMessage: null};
-  handleLogin = () => {
-    const {email, passwword} = this.state;
-    // auth()
-    //   .sigInWithEmailAndPassword(email, passwword)
-    //   .then(() => this.props.navigation.navigate('Home'))
-    //   .catch((e) => this.setState({errorMessage: e.message}));
-    console.log('handle Login');
+  handleLogin = async () => {
+    try {
+      const {email, password} = this.state;
+      if ((email, password)) {
+        await auth().signInWithEmailAndPassword(email, password);
+        await AsyncStorage.setItem('isLogin', 'true');
+        console.log('Login success');
+      } else {
+        throw Error('Empty Input');
+      }
+    } catch (error) {
+      console.log(error, 'Error on login');
+    }
   };
 
   render() {
@@ -38,7 +45,7 @@ export default class Login extends Component {
               <View style={styles.viewIconInput}>{userIcon}</View>
               <View style={{flex: 8}}>
                 <TextInput
-                  placeholder="Emal"
+                  placeholder="Email"
                   placeholderTextColor="#babcbd"
                   style={styles.hintext}
                   onChangeText={(email) => this.setState({email})}

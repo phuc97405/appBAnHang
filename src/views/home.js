@@ -1,20 +1,14 @@
 import React from 'react';
 import {StyleSheet, Platform, Image, Text, View} from 'react-native';
 export default class Home extends React.Component {
-  state = {currentUser: null};
+  // state = {currentUser: null};
   render() {
-    const {currentUser} = this.state;
+    // const {currentUser} = this.state;
     return (
-      <View style={styles.container}>
-        <Text>Hi {currentUser && currentUser.email}!</Text>
+      <View>
+        {/* <Text>Hi {currentUser && currentUser.email}!</Text> */}
+        <Text>Hi home!</Text>
       </View>
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
